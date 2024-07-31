@@ -41,7 +41,9 @@
 		font-style: normal;
 		src: url('https://at.alicdn.com/t/font_1078604_w4kpxh0rafi.ttf') format('truetype');
 	}
-
+/* 	.uni-app--showleftwindow .hideOnPc {
+		display: none !important;
+	} */
 	.yticon {
 		font-family: "yticon" !important;
 		font-size: 16px;
