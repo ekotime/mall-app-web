@@ -18,7 +18,7 @@
 				<block v-for="(item, index) in cartList" :key="item.id">
 					<view class="cart-item" :class="{'b-b': index!==cartList.length-1}">
 						<view class="image-wrapper">
-							<image :src="item.productPic" :class="[item.loaded]" mode="aspectFill" lazy-load @load="onImageLoad('cartList', index)"
+							<image :src="item.productPic" :class="[item.loaded]" mode="aspectFit" lazy-load @load="onImageLoad('cartList', index)"
 							 @error="onImageError('cartList', index)"></image>
 							<view class="yticon icon-xuanzhong2 checkbox" :class="{checked: item.checked}" @click="check('item', index)"></view>
 						</view>
@@ -329,12 +329,12 @@
 		margin-bottom: 100upx;
 		/* #endif */
 		position: fixed;
-		left: 30upx;
-		bottom: 30upx;
+		right: 40px;
+		top: 60px;
 		z-index: 95;
 		display: flex;
 		align-items: center;
-		width: 690upx;
+		width: 600upx;
 		height: 100upx;
 		padding: 0 30upx;
 		background: rgba(255, 255, 255, .9);

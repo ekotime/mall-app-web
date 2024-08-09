@@ -12,7 +12,7 @@
 					<image mode="aspectFit" :src="item.pic" />
 				</swiper-item>
 			</swiper>
-			<!-- 自定义swiper指示器 -->
+			<!-- 自定义swiper指示器-->
 			<view class="swiper-dots">
 				<text class="num">{{swiperCurrent+1}}</text>
 				<text class="sign">/</text>
@@ -30,7 +30,7 @@
 			<text class="yticon icon-you"></text>
 		</view>
 
-		<view class="hot-section">
+		<view class="guess-section">
 			<view v-for="(item, index) in hotProductList" :key="index" class="guess-item" @click="navToDetailPage(item)">
 				<view class="image-wrapper">
 					<image :src="item.pic" mode="aspectFit"></image>
@@ -38,7 +38,7 @@
 				<view class="txt">
 					<text class="title clamp">{{item.name}}</text>
 					<text class="title2">{{item.subTitle}}</text>
-					<text class="price">￥{{item.price}}</text>
+					<!-- <text class="price">￥{{item.price}}</text> -->
 				</view>
 			</view>
 		</view>
@@ -60,7 +60,7 @@
 				</view>
 				<text class="title clamp">{{item.name}}</text>
 				<text class="title2 clamp">{{item.subTitle}}</text>
-				<text class="price">￥{{item.price}}</text>
+				<!-- <text class="price">￥{{item.price}}</text> -->
 			</view>
 		</view>
 		<uni-load-more :status="loadingType"></uni-load-more>
@@ -161,7 +161,7 @@
 			 */
 			async loadData() {
 				fetchContent().then(response => {
-					console.log("onLoad", response.data);
+					// console.log("onLoad", response.data);
 					this.advertiseList = response.data.advertiseList;
 					this.swiperLength = this.advertiseList.length;
 					this.titleNViewBackground = this.titleNViewBackgroundList[0];
@@ -186,7 +186,7 @@
 			navToDetailPage(item) {
 				let id = item.id;
 				uni.navigateTo({
-					url: `/pages/product/product?id=${id}`
+					url: `/pages/product/product-pc?id=${id}`
 				})
 			},
 			//广告详情页
@@ -249,59 +249,6 @@
 </script>
 
 <style lang="scss">
-	/* #ifdef MP */
-	.mp-search-box {
-		position: absolute;
-		left: 0;
-		top: 30upx;
-		z-index: 9999;
-		width: 100%;
-		padding: 0 80upx;
-
-		.ser-input {
-			flex: 1;
-			height: 56upx;
-			line-height: 56upx;
-			text-align: center;
-			font-size: 28upx;
-			color: $font-color-base;
-			border-radius: 20px;
-			background: rgba(255, 255, 255, .6);
-		}
-	}
-
-	page {
-		.cate-section {
-			position: relative;
-			z-index: 5;
-			border-radius: 16upx 16upx 0 0;
-			margin-top: -20upx;
-		}
-
-		.carousel-section {
-			padding: 0;
-
-			.titleNview-placing {
-				padding-top: 0;
-				height: 0;
-			}
-
-			.carousel {
-				.carousel-item {
-					padding: 0;
-				}
-			}
-
-			.swiper-dots {
-				left: 45upx;
-				bottom: 40upx;
-			}
-		}
-	}
-
-	/* #endif */
-
-
 	page {
 		background: #f5f5f5;
 	}

@@ -18,7 +18,10 @@
 					index: 0,
 					category: 1,
 					cart: 2,
-					user: 3
+					user: 3,
+					product: 1,
+					set: 3,
+					order: 3,
 				},
 				current: 0,
 				indexPage: [{
@@ -26,7 +29,7 @@
 					index: '/pages/index/index-pc'
 				}, {
 					tabBar: '/pages/category/category',
-					index: '/pages/category/category-pc'
+					index: '/pages/category/category-pc?fid=1&sid=8'
 				}, {
 					tabBar: '/pages/cart/cart',
 					index: '/pages/cart/cart-pc'
@@ -109,36 +112,15 @@
 		margin-left: 8px;
 	}
 
-	.right-header {
-		display: flex;
-		flex-direction: row;
-		color: #333;
-	}
-
-	.right-header-item {
-		line-height: 25px;
-		margin-left: 40px;
-		cursor: pointer;
-		font-size: 16px;
-	}
-
-	.active {
+/* 	.active {
 		color: #4cd964;
 		border-bottom: 2px solid;
-	}
+	} */
 
 	.tab-bar-flex {
 		width: 360px;
 	}
 
-	.phone-link {
-		padding-left: 20px;
-		cursor: pointer;
-	}
 
-	.new-icon {
-		margin-left: -3px;
-		/* margin-right: 5px; */
-		margin-top: -20px;
-	}
+
 </style>

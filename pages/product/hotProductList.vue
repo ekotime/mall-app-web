@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
-		<image src="/static/hot_product_banner.png" class="banner-image"></image>
-		<view class="section-tit">相关商品</view>
+		<image src="/static/hot_product_banner.png" mode="aspectFit" class="banner-image"></image>
+		<!-- <view class="section-tit">相关商品</view> -->
 		<view class="goods-list">
 			<view v-for="(item, index) in productList" :key="index" class="goods-item" @click="navToDetailPage(item)">
 				<view class="image-wrapper">
@@ -9,10 +9,10 @@
 				</view>
 				<text class="title clamp">{{item.name}}</text>
 				<text class="title2">{{item.subTitle}}</text>
-				<view class="price-box">
+				<!-- <view class="price-box">
 					<text class="price">{{item.price}}</text>
 					<text>已售 {{item.sale}}</text>
-				</view>
+				</view> -->
 			</view>
 		</view>
 		<uni-load-more :status="loadingType"></uni-load-more>

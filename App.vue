@@ -32,6 +32,7 @@
 </script>
 
 <style lang='scss'>
+	@import './common/uni.css';
 	/*
 		全局公共样式和字体图标
 	*/
@@ -394,7 +395,7 @@
 	.clamp {
 		overflow: hidden;
 		text-overflow: ellipsis;
-		white-space: nowrap;
+		white-space: normal;
 		display: block;
 	}
 

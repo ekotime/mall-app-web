@@ -11,18 +11,6 @@
 					<text class="username">{{userInfo.nickname || '游客'}}</text>
 				</view>
 			</view>
-			<view class="vip-card-box">
-				<image class="card-bg" src="/static/vip-card-bg.png" mode=""></image>
-				<view class="b-btn">
-					立即开通
-				</view>
-				<view class="tit">
-					<text class="yticon icon-iLinkapp-"></text>
-					黄金会员
-				</view>
-				<text class="e-m">mall移动端商城</text>
-				<text class="e-b">黄金及以上会员可享有会员价优惠商品。</text>
-			</view>
 		</view>
 		
 		<view 
@@ -37,20 +25,6 @@
 		>
 			<image class="arc" src="/static/arc.png"></image>
 			
-			<view class="tj-sction">
-				<view class="tj-item">
-					<text class="num">{{userInfo.integration || '暂无'}}</text>
-					<text>积分</text>
-				</view>
-				<view class="tj-item">
-					<text class="num">{{userInfo.growth || '暂无'}}</text>
-					<text>成长值</text>
-				</view>
-				<view class="tj-item" @click="navTo('/pages/coupon/couponList')">
-					<text class="num">{{couponCount || '暂无'}}</text>
-					<text>优惠券</text>
-				</view>
-			</view>
 			<!-- 订单 -->
 			<view class="order-section">
 				<view class="order-item" @click="navTo('/pages/order/order?state=0')" hover-class="common-hover"  :hover-stay-time="50">
@@ -74,9 +48,7 @@
 			<view class="history-section icon">
 				<list-cell icon="icon-dizhi" iconColor="#5fcda2" title="地址管理" @eventClick="navTo('/pages/address/address')"></list-cell>
 				<list-cell icon="icon-lishijilu" iconColor="#e07472" title="我的足迹" @eventClick="navTo('/pages/user/readHistory')"></list-cell>
-				<list-cell icon="icon-shoucang" iconColor="#5fcda2" title="我的关注" @eventClick="navTo('/pages/user/brandAttention')"></list-cell>
 				<list-cell icon="icon-shoucang_xuanzhongzhuangtai" iconColor="#54b4ef" title="我的收藏" @eventClick="navTo('/pages/user/productCollection')"></list-cell>
-				<list-cell icon="icon-pingjia" iconColor="#ee883b" title="我的评价"></list-cell>
 				<list-cell icon="icon-shezhi1" iconColor="#e07472" title="设置" border="" @eventClick="navTo('/pages/set/set')"></list-cell>
 			</view>
 		</view>

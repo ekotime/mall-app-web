@@ -1,10 +1,10 @@
 {
-	// "leftWindow": {
-	// 	"path": "windows/left-window.vue",
-	// 	"style": {
-	// 		"width": "350px"
-	// 	}
-	// },
+	"leftWindow": {
+		"path": "windows/left-window.vue",
+		"style": {
+			"width": "350px"
+		}
+	},
 	"topWindow": {
 		"path": "windows/top-window.vue",
 		"style": {
@@ -297,6 +297,13 @@
 			"path": "pages/user/user-pc",
 			"style": {
 				"navigationBarTitleText": "user",
+				"titleNView":false
+			}
+		},
+		{
+			"path": "pages/product/product-pc",
+			"style": {
+				"navigationBarTitleText": "product",
 				"titleNView":false
 			}
 		}

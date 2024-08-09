@@ -7,6 +7,9 @@ const store = new Vuex.Store({
 	state: {
 		hasLogin: false,
 		userInfo: {},
+		noMatchLeftWindow: true,
+		active: 'categoryPage',
+		leftWinActive: '/pages/index/index-pc'
 	},
 	mutations: {
 		login(state, provider) {
@@ -28,6 +31,15 @@ const store = new Vuex.Store({
 			uni.removeStorage({
 			    key: 'token'  
 			})
+		},
+		setMatchLeftWindow(state, matchLeftWindow) {
+			state.noMatchLeftWindow = !matchLeftWindow
+		},
+		setActive(state, tabPage) {
+			state.active = tabPage
+		},
+		setLeftWinActive(state, leftWinActive) {
+			state.leftWinActive = leftWinActive
 		}
 	},
 	actions: {

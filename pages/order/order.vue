@@ -14,9 +14,9 @@
 					<empty v-if="orderList==null||orderList.length === 0"></empty>
 
 					<!-- 订单列表 -->
-					<view v-for="(item,index) in orderList" :key="index" class="order-item">
+					<view v-for="(item,index) in orderList" :key="index" class="order-item" @click="showOrderDetail(item.id)">
 						<view class="i-top b-b">
-							<text class="time" @click="showOrderDetail(item.id)">{{item.createTime | formatDateTime}}</text>
+							<text class="time">{{item.createTime | formatDateTime}}</text>
 							<text class="state" :style="{color: '#fa436a'}">{{item.status | formatStatus}}</text>
 							<text v-if="item.status===3||item.status===4" class="del-btn yticon icon-iconfontshanchu1" @click="deleteOrder(item.id)"></text>
 						</view>
@@ -44,9 +44,9 @@
 							<button class="action-btn" >查看物流</button>
 							<button class="action-btn recom" @click="receiveOrder(item.id)">确认收货</button>
 						</view>
-						<view class="action-box b-t" v-if="item.status == 3">
+						<!-- <view class="action-box b-t" v-if="item.status == 3">
 							<button class="action-btn recom" >评价商品</button>
-						</view>
+						</view> -->
 					</view>
 
 					<uni-load-more :status="loadingType"></uni-load-more>

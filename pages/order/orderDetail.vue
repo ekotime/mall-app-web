@@ -31,7 +31,7 @@
 				<view class="right">
 					<text class="title clamp">{{item.productName}}</text>
 					<text class="spec">{{item.productAttr | formatProductAttr}}</text>
-					<text class="promotion clamp">{{item.promotionName}}</text>
+					<!-- <text class="promotion clamp">{{item.promotionName}}</text> -->
 					<view class="price-box">
 						<text class="price">￥{{item.productPrice}}</text>
 						<text class="number">x {{item.productQuantity}}</text>
@@ -50,7 +50,7 @@
 				<text class="cell-tit clamp">运费</text>
 				<text class="cell-tip">￥{{order.freightAmount}}</text>
 			</view>
-			<view class="yt-list-cell b-b">
+			<!-- <view class="yt-list-cell b-b">
 				<text class="cell-tit clamp">活动优惠</text>
 				<text class="cell-tip red">-￥{{order.promotionAmount}}</text>
 			</view>
@@ -61,7 +61,7 @@
 			<view class="yt-list-cell b-b">
 				<text class="cell-tit clamp">积分抵扣</text>
 				<text class="cell-tip red">-￥{{order.integrationAmount}}</text>
-			</view>
+			</view> -->
 			<view class="yt-list-cell desc-cell">
 				<text class="cell-tit clamp">备注</text>
 				<text class="cell-tip">{{order.note}}</text>
