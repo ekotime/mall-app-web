@@ -39,10 +39,10 @@
 					<text class="yticon icon-yishouhuo"></text>
 					<text>待收货</text>
 				</view>
-				<view class="order-item" hover-class="common-hover"  :hover-stay-time="50">
+<!-- 				<view class="order-item" hover-class="common-hover"  :hover-stay-time="50">
 					<text class="yticon icon-shouhoutuikuan"></text>
 					<text>退款/售后</text>
-				</view>
+				</view> -->
 			</view>
 			<!-- 浏览历史 -->
 			<view class="history-section icon">

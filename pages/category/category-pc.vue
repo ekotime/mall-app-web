@@ -6,15 +6,20 @@
 			<image src="/static/icon_recommend_product.png"></image>
 			<view class="tit-box">
 				<text class="tit">产品</text>
-				<text class="tit2">你喜欢的都在这里了</text>
+				<!-- <text class="tit2">你喜欢的都在这里了</text> -->
 			</view>
 			<text class="yticon icon-you" v-show="false"></text>
 		</view>
-		
+		<view class="s-list" v-if="productList===null || productList.length<=0">
+			<view @click="goDetailPage(item.id)" class="s-item" v-for="item in slist" :key="item.id">
+				<image :src="item.icon||'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20190519/default.png'" mode="aspectFit"></image>
+				<text>{{item.name}}</text>
+			</view>
+		</view>
 		<view class="guess-section">
 			<view v-for="(item, index) in productList" :key="index" class="guess-item" @click="navToDetailPage(item)">
 				<view class="image-wrapper">
-					<image :src="item.pic" mode="aspectFill"></image>
+					<image :src="item.pic" mode="aspectFit"></image>
 				</view>
 				<text class="title clamp">{{item.name}}</text>
 				<text class="title2 clamp">{{item.subTitle}}</text>
@@ -44,10 +49,8 @@
 </template>
 
 <script>
-	import {
-		searchProductList,
-		fetchCategoryTreeList
-	} from '@/api/product.js';
+	import { searchProductList,fetchCategoryTreeList} from '@/api/product.js';
+	import { fetchProductCateList } from '@/api/home.js';
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
 	export default {
 		components: {
@@ -55,6 +58,7 @@
 		},
 		data() {
 			return {
+				slist: [],
 				cateMaskState: 0, //分类面板展开状态
 				headerPosition: "fixed",
 				headerTop: "0px",
@@ -79,8 +83,12 @@
 			// #endif
 			// options.fid=1
 			// options.sid=8
-			console.log('options.fid:'+options.fid)
-			console.log('options.sid:'+options.sid)
+			if(options.sid==0){
+				fetchProductCateList(options.fid).then(response => {
+					this.slist = response.data;
+				});
+			}
+			
 			this.searchParam.productCategoryId = options.sid;
 			this.loadCateList(options.fid, options.sid);
 			this.loadData();
@@ -212,7 +220,12 @@
 				})
 				console.log('navigateTo:')
 			},
-			stopPrevent() {}
+			stopPrevent() {},
+			goDetailPage(sid) {
+				uni.navigateTo({
+					url: `/pages/category/category-pc?fid=${this.currentId}&sid=${sid}`
+				})
+			}
 		},
 	}
 </script>
@@ -546,6 +559,36 @@
 				content: '￥';
 				font-size: 26upx;
 			}
+		}
+	}
+	.s-list {
+		margin-top: 20upx;
+		display: flex;
+		flex-wrap: wrap;
+		width: 100%;
+		background: #fff;
+		padding-top: 12upx;
+	
+		&:after {
+			content: '';
+			flex: 99;
+			height: 0;
+		}
+	}
+	.s-item {
+		flex-shrink: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		width: 336upx;
+		font-size: 26upx;
+		color: #666;
+		padding-bottom: 20upx;
+	
+		image {
+			width: 300upx;
+			height: 300upx;
 		}
 	}
 </style>
