@@ -39,7 +39,7 @@
 
 		<view class="c-list">
 			<view class="c-row b-b" @click="toggleSpec">
-				<text class="tit">购买类型</text>
+				<text class="tit">规格型号</text>
 				<view class="con">
 					<text class="selected-text" v-for="(sItem, sIndex) in specSelected" :key="sIndex">
 						{{sItem.name}}
@@ -562,7 +562,7 @@
 			},
 			//初始化商品详情信息
 			initProductDesc() {
-				let rawhtml = this.product.detailMobileHtml;
+				let rawhtml = this.product.detailHtml;
 				let tempNode = document.createElement('div');
 				tempNode.innerHTML = rawhtml;
 				let imgs = tempNode.getElementsByTagName('img');
