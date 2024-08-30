@@ -47,7 +47,7 @@
 				</view>
 				<text class="yticon icon-you"></text>
 			</view>
-			<view class="c-row b-b" @click="toggleAttr">
+			<view class="c-row b-b" @click="toggleAttr" v-if="attrList.length>0">
 				<text class="tit">商品参数</text>
 				<view class="con">
 					<text class="con t-r">查看</text>
@@ -67,7 +67,7 @@
 					<text v-for="item in promotionTipList" :key="item">{{item}}</text>
 				</view>
 			</view>-->
-			<view class="c-row b-b">
+			<view class="c-row b-b" v-if="serviceList.length>0">
 				<text class="tit">服务</text>
 				<view class="bz-list con">
 					<text v-for="item in serviceList" :key="item">{{item}} ·</text>
