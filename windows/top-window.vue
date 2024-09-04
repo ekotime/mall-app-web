@@ -18,9 +18,10 @@
 					index: 0,
 					category: 1,
 					cart: 2,
-					user: 3,
+					order:3,
+					user: 4,
 					product: 1,
-					set: 3,
+					set: 4,
 					order: 3,
 				},
 				current: 0,
@@ -36,6 +37,9 @@
 				}, {
 					tabBar: '/pages/user/user',
 					index: '/pages/user/user-pc'
+				}, {
+					tabBar: '/pages/openorder/openorder',
+					index: '/pages/openorder/openorder-pc?state=-1'
 				}]
 			}
 		},

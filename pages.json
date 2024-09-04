@@ -67,7 +67,6 @@
 				"navigationBarTitleText": "设置"
 			}
 		},
-
 		{
 			"path": "pages/userinfo/userinfo",
 			"style": {
@@ -133,6 +132,14 @@
 			"path": "pages/order/order",
 			"style": {
 				"navigationBarTitleText": "我的订单",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/openorder/openorder",
+			"style": {
+				"navigationBarTitleText": "执行订单",
 				"app-plus": {
 					"bounce": "none"
 				}
@@ -306,6 +313,13 @@
 				"navigationBarTitleText": "product",
 				"titleNView":false
 			}
+		},
+		{
+			"path": "pages/openorder/openorder-pc",
+			"style": {
+				"navigationBarTitleText": "order",
+				"titleNView":false
+			}
 		}
 	],
 	"globalStyle": {
@@ -341,6 +355,12 @@
 				"iconPath": "static/tab-cart.png",
 				"selectedIconPath": "static/tab-cart-current.png",
 				"text": "购物车"
+			},
+			{
+				"pagePath": "pages/openorder/openorder",
+				"iconPath": "static/tab-cart.png",
+				"selectedIconPath": "static/tab-cart-current.png",
+				"text": "订单"
 			},
 			{
 				"pagePath": "pages/user/user",
