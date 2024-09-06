@@ -175,12 +175,12 @@
 				//这里是将订单挂载到tab列表下
 				let index = this.tabCurrentIndex;
 				let navItem = this.navList[index];
-				let state = navItem.state;
+				let state = navItem.state||this.tabCurrentIndex;
 				if (this.loadingType === 'loading') {
 					//防止重复加载
 					return;
 				}
-				this.orderParam.status = navItem.state;
+				this.orderParam.status = navItem.state||this.tabCurrentIndex;
 				this.loadingType = 'loading';
 				fetchOrderList(this.orderParam).then(response => {
 					let list = response.data.list;
