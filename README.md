@@ -1,21 +1,11 @@
 # mall-app-web
-<p></p>
-
-## 前言
-
-该项目为前后端分离项目的前端部分，后端项目`mall`地址：[传送门](https://github.com/macrozheng/mall)。
+<p>Ekotime design</p>
 
 ## 项目介绍
 
+该项目为前后端分离项目的前端部分
+
 `mall-app-web`是一个电商系统的移动端项目，基于`uni-app`实现。主要包括首页门户、商品推荐、商品搜索、商品展示、购物车、订单流程、会员中心、客户服务、帮助中心等功能。
-
-### 项目演示
-
-项目在线演示地址：[https://www.macrozheng.com/app/](https://www.macrozheng.com/app/)  
-admin:macro123
-test:123456
-### 效果展示
-
 
 ### 技术选型
 
@@ -53,13 +43,22 @@ src -- 源码目录
     ├── user -- 会员页
     └── userinfo -- 会员信息页
 ```
+## 开发环境
+
+```
+cd /d/workspace/mall-app-web
+npm install tdesign-vue
+```
 
 ## 搭建步骤
 
 - 本项目使用了`uni-app`专用开发工具`HBuilder X`（App开发版）开发，下载地址：https://www.dcloud.io/hbuilderx.html
-- 该项目为前后端分离项目，访问本地访问接口需搭建后台环境，搭建请参考后端项目[传送门](https://github.com/macrozheng/mall)；
 - 注意由于`mall-app-web`中的接口都在`mall-portal`模块中，所以一定要启动该模块；
-- 访问在线接口无需搭建后台环境，只需将`utils/requestUtil.js`文件中的`config.baseUrl`改为线上地址即可：https://portal-api.macrozheng.com
+- 访问在线接口无需搭建后台环境，只需将`utils/requestUtil.js`文件中的`config.baseUrl`改为线上地址即可
 - 克隆源代码到本地，使用`HBuilder X`打开；
-- 在`HBuilder X`中使用`运行->运行到浏览器->Chrome`运行项目，运行成功后会自动打开下面地址（将浏览器改为手机模式）：http://localhost:8080
-- 如果浏览器没有启动的话，可以直接访问如下地址访问：http://localhost:8080
+- 在`HBuilder X`中使用`运行->运行到浏览器->Chrome`运行项目，运行成功后会自动打开
+- 测试账号
+    ```
+    admin:macro123
+    test:123456
+    ```

@@ -24,6 +24,14 @@ export function fetchOrderList(params) {
 	})
 }
 
+export function fetchOpenorderList(params) {
+	return request({
+		method: 'GET',
+		url: '/order/openorderList',
+		params: params
+	})
+}
+
 export function payOrderSuccess(data) {
 	return request({
 		method: 'POST',
