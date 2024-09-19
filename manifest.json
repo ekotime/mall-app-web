@@ -69,7 +69,8 @@
         "domain" : "localhost",
         "router" : {
             "base" : ""
-        }
+        },
+        "template" : "template.h5.html"
     },
     "locale" : "en"
 }
