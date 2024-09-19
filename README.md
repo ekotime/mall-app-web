@@ -1,5 +1,6 @@
 # mall-app-web
-<p>Ekotime design</p>
+
+Ekotime design
 
 ## 项目介绍
 
@@ -11,11 +12,11 @@
 
 | 技术         | 说明             | 官网                                    |
 | ------------ | ---------------- | --------------------------------------- |
-| Vue          | 核心前端框架     | https://vuejs.org                       |
-| Vuex         | 全局状态管理框架 | https://vuex.vuejs.org                  |
-| uni-app      | 移动端前端框架   | https://uniapp.dcloud.io                |
-| mix-mall     | 电商项目模板     | https://ext.dcloud.net.cn/plugin?id=200 |
-| luch-request | HTTP请求框架     | https://github.com/lei-mu/luch-request  |
+| Vue          | 核心前端框架     | <https://vuejs.org>                       |
+| Vuex         | 全局状态管理框架 | <https://vuex.vuejs.org>                  |
+| uni-app      | 移动端前端框架   | <https://uniapp.dcloud.io>                |
+| mix-mall     | 电商项目模板     | <https://ext.dcloud.net.cn/plugin?id=200> |
+| luch-request | HTTP请求框架     | <https://github.com/lei-mu/luch-request>  |
 
 ### 项目结构
 
@@ -43,22 +44,27 @@ src -- 源码目录
     ├── user -- 会员页
     └── userinfo -- 会员信息页
 ```
+
 ## 开发环境
 
-```
+```bash
+# 安装及配置Node.js
+# 查看镜像
+npm get registry
+# 全局切换镜像源：
+npm config set registry https://registry.npmmirror.com
+# 进入项目路径
 cd /d/workspace/mall-app-web
+# 安装tdesign-vue
 npm install tdesign-vue
 ```
 
 ## 搭建步骤
 
-- 本项目使用了`uni-app`专用开发工具`HBuilder X`（App开发版）开发，下载地址：https://www.dcloud.io/hbuilderx.html
+- 本项目使用了`uni-app`专用开发工具`HBuilder X`（App开发版）开发，下载地址：<https://www.dcloud.io/hbuilderx.html>
 - 注意由于`mall-app-web`中的接口都在`mall-portal`模块中，所以一定要启动该模块；
 - 访问在线接口无需搭建后台环境，只需将`utils/requestUtil.js`文件中的`config.baseUrl`改为线上地址即可
 - 克隆源代码到本地，使用`HBuilder X`打开；
 - 在`HBuilder X`中使用`运行->运行到浏览器->Chrome`运行项目，运行成功后会自动打开
-- 测试账号
-    ```
-    admin:macro123
-    test:123456
-    ```
+- 测试账号admin:macro123
+- 测试账号test:123456

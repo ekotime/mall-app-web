@@ -97,7 +97,7 @@ export default {
 			{ colKey: 'Estimate Date', title: 'Estimate Date',width: '120',ellipsisTitle: true,}
 			],
 			expandedRowKeys: [],
-			expandedRow: (h, { row }) => (
+			expandedRow: (h, { row }) => (//<img src="https://werka.oss-eu-central-1.aliyuncs.com/web/0021/17-1222-124.png" style="width: 100%;" />
 				<div class="more-detail">
 					<p class="title">
 						<b>创建时间:</b>
