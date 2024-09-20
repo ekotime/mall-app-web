@@ -134,7 +134,7 @@
 						})
 					} else {
 						this.setLeftWinActive(newRoute.path)
-						console.log('leftWinActive:'+newRoute.path)
+						//console.log('leftWinActive:'+newRoute.path)
 						let active = newRoute.path.split('/')[2]
 						if (this.nav.includes(active)) {
 							if (active === 'index') {
@@ -146,7 +146,7 @@
 							if (active === 'product') {
 								active = 'categoryPage'
 							}
-							console.log('active:'+active)
+							//console.log('active:'+active)
 							this.setActive(active)
 						} else {
 							this.setActive('')

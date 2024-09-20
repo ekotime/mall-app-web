@@ -192,7 +192,7 @@
 			//广告详情页
 			navToAdvertisePage(item) {
 				let id = item.id;
-				console.log("navToAdvertisePage",item)
+				//console.log("navToAdvertisePage",item)
 			},
 			//品牌详情页
 			navToBrandDetailPage(item) {

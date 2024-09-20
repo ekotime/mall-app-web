@@ -3,15 +3,22 @@
 		<template>
 			<t-table bordered stripe :table-layout="tableLayout" :pagination="pagination"
 				:expanded-row-keys="expandedRowKeys" :expanded-row="expandedRow" :expandIcon="expandIcon" expandOnRowClick
-				:max-height="fixedTopAndBottomRows ? 1000 : 800"
+				:max-height="fixedTopAndBottomRows ? 1600 : 1400"
 				row-key="ContractProductID" :data="openorderList" :columns="columns"
 				@expand-change="rehandleExpandChange" @page-change="onPageChange" @filter-change="onFilterChange"
-				@change="onChange" />
+				@change="onChange"
+				:foot-data="footData" 
+				>
+			</t-table>
 		</template>
+		<view class="introduce-section">
+			<text class="title">Total</text><br>
+			<text class="title2">Shipping qty / Value：{{calcTotal()}}</text>
+		</view>
 	</view>
 </template>
 
-<script>
+<script >
 import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
 import empty from "@/components/empty";
 import {
@@ -47,72 +54,144 @@ export default {
 				showJumper: true,
 			},
 			filterValue: {},
-			columns: [{
-				colKey: 'PO Date',
-				title: 'PO Date',
-				width: '120',
-				// sorter: true,
-			},
-			{
-				colKey: 'PO NO.', title: 'PO NO.', width: '120',filter: {
-					type: 'input',
-					// 文本域搜索
-					// component: Textarea,
-					resetValue: '',
-					// 按下 Enter 键时也触发确认搜索
-					confirmEvents: ['onEnter'],
-					props: {
-						placeholder: '输入关键词过滤',
-						onChange: this.oneEmailChange,
+			columns: [
+				{
+					colKey: 'link',
+					title: '#',
+					align: 'center',
+					width: '80',
+					// 超出省略的内容显示纯文本，不带任何样式和元素
+					// ellipsis: (h, { row }) => row.ContractProductID,
+					// 注意这种 JSX 写法需设置 <script lang="jsx" setup>
+					cell: (h, { row }) => (
+						<a href="pages/openorder/openorder-pc" target="_blank">View</a>
+					),
+					foot: () => <b style="font-weight: bold">Total</b>,
+				},
+				{
+					colKey: 'PO Date',
+					title: 'PO Date',
+					width: '120',
+					// sorter: true,
+				},
+				{
+					colKey: 'PO NO.', title: 'PO NO.', width: '120',
+					ellipsis: {
+						theme: 'light',
+						placement: 'bottom',
 					},
-					// 是否显示重置取消按钮，一般情况不需要显示
-					showConfirmAndReset: true,
+					filter: {
+						type: 'input',
+						// 文本域搜索
+						// component: Textarea,
+						//resetValue: '',
+						// 按下 Enter 键时也触发确认搜索
+						confirmEvents: ['onEnter', 'onChange'],
+						// props: {
+						// 	placeholder: '输入关键词过滤',
+						// 	onChange: this.oneChange,
+						// },
+						// 是否显示重置取消按钮，一般情况不需要显示
+						showConfirmAndReset: true,
+					},
 				},
-			},
-			{ colKey: 'Item NO.', title: 'Item NO.',width: '120',},
-			{
-				colKey: 'Product Name', title: 'Product Name', width: '200',// 浮层浅色背景，方向默认朝下出现
-				ellipsis: {
-					theme: 'light',
-					placement: 'bottom',
+				{ colKey: 'Item NO.', title: 'Item NO.',width: '120',
+					ellipsis: {
+						theme: 'light',
+						placement: 'bottom',
+					},
+					filter: {
+						type: 'input',
+						// 文本域搜索
+						// component: Textarea,
+						//resetValue: '',
+						// 按下 Enter 键时也触发确认搜索
+						confirmEvents: ['onEnter'],
+						// props: {
+						// 	placeholder: '输入关键词过滤',
+						// 	onChange: this.oneChange,
+						// },
+						// 是否显示重置取消按钮，一般情况不需要显示
+						showConfirmAndReset: true,
+					},
 				},
-			},
-			{
-				colKey: 'Specific', title: 'Specific', width: '200',// 浮层浅色背景，方向默认朝下出现
-				ellipsis: {
-					theme: 'light',
-					placement: 'bottom',
+				{
+					colKey: 'Product Name', title: 'Product Name', width: '200',// 浮层浅色背景，方向默认朝下出现
+					ellipsis: {
+						theme: 'light',
+						placement: 'bottom',
+					},
+					filter: {
+						type: 'input',
+						// 文本域搜索
+						// component: Textarea,
+						//resetValue: '',
+						// 按下 Enter 键时也触发确认搜索
+						confirmEvents: ['onEnter'],
+						// props: {
+						// 	placeholder: '输入关键词过滤',
+						// 	onChange: this.oneChange,
+						// },
+						// 是否显示重置取消按钮，一般情况不需要显示
+						showConfirmAndReset: true,
+					},
 				},
-			},
-			{ colKey: 'ETD', title: 'ETD',width: '120',},
-			// {colKey: 'Price',title: 'Price',sorter: true,},
-			{ colKey: 'PO QTY', title: 'PO QTY',width: '60',ellipsisTitle: true,},
-			{ colKey: 'Stock', title: 'Stock',width: '60',ellipsisTitle: true,},
-			// {colKey: 'Open',title: 'Open',sorter: true,},
-			{ colKey: 'Shipping', title: 'Shipping',width: '60',ellipsisTitle: true,},
-			// { colKey: 'Shipping Value', title: 'Shipping Value',width: '100',ellipsisTitle: true,},
-			// {colKey: 'INSP',title: 'INSP',sorter: true,},
-			// {colKey: 'OnTheWay',title: 'OnTheWay',sorter: true,},
-			// { colKey: 'Non-Delivery', title: 'Non-Delivery',width: '60',ellipsisTitle: true,},
-			{ colKey: 'Estimate Date', title: 'Estimate Date',width: '120',ellipsisTitle: true,}
+				{
+					colKey: 'Specific', title: 'Specific', width: '100',// 浮层浅色背景，方向默认朝下出现
+					ellipsis: {
+						theme: 'light',
+						placement: 'bottom',
+					},
+					filter: {
+						type: 'input',
+						// 文本域搜索
+						// component: Textarea,
+						//resetValue: '',
+						// 按下 Enter 键时也触发确认搜索
+						confirmEvents: ['onEnter'],
+						// props: {
+						// 	placeholder: '输入关键词过滤',
+						// 	onChange: this.oneChange,
+						// },
+						// 是否显示重置取消按钮，一般情况不需要显示
+						showConfirmAndReset: true,
+					},
+				},
+				{ colKey: 'ETD', title: 'ETD',width: '120',},
+				// {colKey: 'Price',title: 'Price',sorter: true,},
+				{ colKey: 'PO QTY', title: 'PO QTY',align: 'right',width: '80',ellipsisTitle: true,},
+				{ colKey: 'Stock', title: 'Stock',align: 'right',width: '80',ellipsisTitle: true,},
+				// {colKey: 'Open',title: 'Open',sorter: true,},
+				{ 
+					colKey: 'Shipping',title: 'Shipping',align: 'right',width: '80',ellipsisTitle: true,
+					// foot: (h, { row }) => {
+					// 	if (this.openorderList && this.openorderList.length > 0) {
+					// 		const sum = this.openorderList.reduce((acc, curr) => acc + (parseFloat(curr.Shipping) || 0), 0);
+					// 		return h('span', sum.toFixed(0));
+					// 	}
+					// 	return h('span', '0');
+					// },
+				},
+				// { colKey: 'Shipping Value', title: 'Shipping Value',width: '100',ellipsisTitle: true,},
+				// {colKey: 'INSP',title: 'INSP',sorter: true,},
+				// {colKey: 'OnTheWay',title: 'OnTheWay',sorter: true,},
+				// { colKey: 'Non-Delivery', title: 'Non-Delivery',width: '60',ellipsisTitle: true,},
+				{ colKey: 'Estimate Date', title: 'Estimate Date',width: '120',ellipsisTitle: true,},
+			],
+			footData: [
+				// {
+				// 	index: 'PO QTY',
+				// 	type: '全部类型',
+				// 	default: '',
+				// 	description: '-',
+				// }
 			],
 			expandedRowKeys: [],
 			expandedRow: (h, { row }) => (//<img src="https://werka.oss-eu-central-1.aliyuncs.com/web/0021/17-1222-124.png" style="width: 100%;" />
 				<div class="more-detail">
-					<p class="title">
-						<b>创建时间:</b>
-					</p>
-					<p class="content">{row.StockProductID}</p>
-					<br />
-					<p class="title">
-						<b>邮箱地址:</b>
-					</p>
-					<p class="content">{row.StockProductID}</p>
-					<br />
-					<p class="title">
-						<b>签署方式:</b>
-					</p>
-					<p class="content">{row.StockProductID}</p>
+					<b>INSP:</b>{row.INSP}&nbsp;&nbsp;	
+					<b>OnTheWay:</b>{row.OnTheWay}&nbsp;&nbsp;
+					<b>Non-Delivery:</b>{row['Non-Delivery']}&nbsp;&nbsp;
 				</div>
 			),
 		};
@@ -166,7 +245,7 @@ export default {
 	methods: {
 		//获取订单列表
 		loadData(type = 'refresh') {
-			this.openorderParam.key = 'openorder:0021'
+			this.openorderParam.key = 'openorder:0307'
 			fetchOpenorderList(this.openorderParam).then(response => {
 				this.openorderList = JSON.parse(response.data)
 				this.openorderListIntial = this.openorderList
@@ -175,20 +254,19 @@ export default {
 		},
 		// filters 参数包含自定义过滤组件 日期选择器 的值
 		onFilterChange(filters, ctx) {
-			console.log('filter-change', filters, ctx);
-			console.log(ctx.trigger)
-			if (ctx.trigger === 'confirm') {
-					this.filterValue = filters;
+			//console.log('filter-change', filters, ctx);
+			if (ctx.trigger === 'confirm' || ctx.trigger === 'reset' ) {
+				this.filterValue = filters;
 				// 模拟异步请求进行数据过滤
 				this.request(this.filterValue);
-			}else if(ctx.trigger === 'reset' || ctx.trigger === 'clear'){
+			}else if( ctx.trigger === 'clear'){
 				this.setFilters()
 			}
 		},
 		request(filters) {
 			const timer = setTimeout(() => {
 				clearTimeout(timer);
-				this.openorderList = this.openorderList.filter((item) => {
+				this.openorderList = this.openorderListIntial.filter((item) => {
 					let result = true;
 					if (isNumber(filters.status)) {
 						result = item.status === filters.status;
@@ -196,19 +274,31 @@ export default {
 					if (result && filters['PO NO.']) {
 						result = item['PO NO.'].toLowerCase().includes(filters['PO NO.'].toLowerCase());
 					}
+					if (result && filters['Item NO.']) {
+						result = item['Item NO.'].toLowerCase().includes(filters['Item NO.'].toLowerCase());
+					}
+					if (result && filters['Product Name']) {
+						result = item['Product Name'].toLowerCase().includes(filters['Product Name'].toLowerCase());
+					}
+					if (result && filters['Specific']) {
+						result = item['Specific'].toLowerCase().includes(filters['Specific'].toLowerCase());
+					}
 					return result;
 				});
 				this.pagination.total = this.openorderList.length
 			}, 100);
 		},
-		// 筛选、分页、排序等功能发生变化时，均会触发 change 事件
-		onChange(info, context) {
-			console.log('change', info, context, '筛选、分页、排序等功能发生变化均会触发');
-		},
 		setFilters() {
 			this.filterValue = {};
 			this.openorderList = this.openorderListIntial;
 			this.pagination.total = this.openorderList.length
+		},
+		// 筛选、分页、排序等功能发生变化时，均会触发 change 事件
+		onChange(info, context) {
+			//console.log('change', info, context, '筛选、分页、排序等功能发生变化均会触发');
+		},
+		oneChange(val, ctx) {
+			//console.log(val, ctx);
 		},		// 分页变化时触发该事件
 		onPageChange(pageInfo, newData) {
 			if (!this.pagination.defaultCurrent) {
@@ -216,16 +306,44 @@ export default {
 				this.pagination.current = pageInfo.current;
 				this.pagination.pageSize = pageInfo.pageSize;
 			}
-			console.log('page-change:', pageInfo, newData);
-		},
-		oneEmailChange(val, ctx) {
-			console.log(val, ctx);
+			//console.log('page-change:', pageInfo, newData);
 		},
 		rehandleExpandChange(value, params) {
 			this.expandedRowKeys = value;
-			console.log('rehandleExpandChange', value);
-			console.log('rehandleExpandChange', params);
+			//console.log('rehandleExpandChange', value);
+			//console.log('rehandleExpandChange', params);
+		},
+		//计算sum shipping shippingValue
+		calcTotal() {
+			if (this.openorderList && this.openorderList.length > 0) {
+				const sum_shipping = this.openorderList.reduce((acc, curr) => acc + (parseFloat(curr.Shipping) || 0), 0);
+				const sum_shippingValue = this.openorderList.reduce((acc, curr) => acc + (parseFloat(curr['Shipping Value']) || 0), 0);
+				return sum_shipping.toLocaleString('en-US', { maximumFractionDigits: 0 }) + ' / ' + sum_shippingValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+			}
+			return '0 / 0.00';
 		},
 	},
 }
 </script>
+
+<style lang='scss'>
+	/* 标题简介 */
+	.introduce-section {
+		background: #fff;
+		padding: 20upx 30upx;
+
+		.title {
+			font-size: 32upx;
+			color: $font-color-dark;
+			height: 50upx;
+			line-height: 50upx;
+		}
+
+		.title2 {
+			font-size: 28upx;
+			color: $font-color-light;
+			height: 46upx;
+			line-height: 46upx;
+		}
+	}
+</style>
