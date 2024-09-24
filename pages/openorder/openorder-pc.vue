@@ -18,7 +18,7 @@
 	</view>
 </template>
 
-<script >
+<script lang="jsx">
 import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
 import empty from "@/components/empty";
 import {
@@ -64,7 +64,7 @@ export default {
 					// ellipsis: (h, { row }) => row.ContractProductID,
 					// 注意这种 JSX 写法需设置 <script lang="jsx" setup>
 					cell: (h, { row }) => (
-						<a href="pages/openorder/openorder-pc" target="_blank">View</a>
+						<router-link to={`/pages/openorder/openorderDetail-pc?id=${row.ContractProductID}`} target="_blank">View</router-link>
 					),
 					foot: () => <b style="font-weight: bold">Total</b>,
 				},
@@ -187,8 +187,9 @@ export default {
 				// }
 			],
 			expandedRowKeys: [],
-			expandedRow: (h, { row }) => (//<img src="https://werka.oss-eu-central-1.aliyuncs.com/web/0021/17-1222-124.png" style="width: 100%;" />
+			expandedRow: (h, { row }) => (
 				<div class="more-detail">
+					<router-link to={`/pages/openorder/openorderDetail-pc?id=${row.ContractProductID}`} target="_blank">View Product Detail</router-link>&nbsp;&nbsp;	
 					<b>INSP:</b>{row.INSP}&nbsp;&nbsp;	
 					<b>OnTheWay:</b>{row.OnTheWay}&nbsp;&nbsp;
 					<b>Non-Delivery:</b>{row['Non-Delivery']}&nbsp;&nbsp;

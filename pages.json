@@ -317,7 +317,14 @@
 		{
 			"path": "pages/openorder/openorder-pc",
 			"style": {
-				"navigationBarTitleText": "order",
+				"navigationBarTitleText": "openorder",
+				"titleNView":false
+			}
+		},
+		{
+			"path": "pages/openorder/openorderDetail-pc",
+			"style": {
+				"navigationBarTitleText": "openorderDetail",
 				"titleNView":false
 			}
 		}
