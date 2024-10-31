@@ -2,7 +2,6 @@
 	<view class="content">
 		<template>
 			<t-table bordered stripe :table-layout="tableLayout" :pagination="pagination"
-				:expanded-row-keys="expandedRowKeys" :expanded-row="expandedRow" :expandIcon="expandIcon" expandOnRowClick
 				:max-height="fixedTopAndBottomRows ? 1600 : 1400"
 				row-key="ContractProductID" :data="openorderList" :columns="columns"
 				@expand-change="rehandleExpandChange" @page-change="onPageChange" @filter-change="onFilterChange"
@@ -63,9 +62,16 @@ export default {
 					// 超出省略的内容显示纯文本，不带任何样式和元素
 					// ellipsis: (h, { row }) => row.ContractProductID,
 					// 注意这种 JSX 写法需设置 <script lang="jsx" setup>
-					cell: (h, { row }) => (
-						<router-link to={`/pages/openorder/openorderDetail-pc?id=${row.ContractProductID}`} target="_blank">View</router-link>
-					),
+					cell: (h, { row }) => {
+						//console.log('Row data:', row);
+						return (
+							<div>
+								<router-link to={{ path: '/pages/openorder/openorderDetail-pc', query: { id: row.ContractProductID } }}>
+									View
+								</router-link>
+							</div>
+						);
+					},
 					foot: () => <b style="font-weight: bold">Total</b>,
 				},
 				{
@@ -186,15 +192,15 @@ export default {
 				// 	description: '-',
 				// }
 			],
-			expandedRowKeys: [],
-			expandedRow: (h, { row }) => (
-				<div class="more-detail">
-					<router-link to={`/pages/openorder/openorderDetail-pc?id=${row.ContractProductID}`} target="_blank">View Product Detail</router-link>&nbsp;&nbsp;	
-					<b>INSP:</b>{row.INSP}&nbsp;&nbsp;	
-					<b>OnTheWay:</b>{row.OnTheWay}&nbsp;&nbsp;
-					<b>Non-Delivery:</b>{row['Non-Delivery']}&nbsp;&nbsp;
-				</div>
-			),
+			//:expanded-row-keys="expandedRowKeys" :expanded-row="expandedRow" :expandIcon="expandIcon" expandOnRowClick
+			// expandedRowKeys: [],
+			// expandedRow: (h, { row }) => (
+			// 	<div class="more-detail">
+			// 		<b>INSP:</b>{row.INSP}&nbsp;&nbsp;	
+			// 		<b>OnTheWay:</b>{row.OnTheWay}&nbsp;&nbsp;
+			// 		<b>Non-Delivery:</b>{row['Non-Delivery']}&nbsp;&nbsp;
+			// 	</div>
+			// ),
 		};
 	},
 	onLoad(options) {
@@ -250,6 +256,7 @@ export default {
 			fetchOpenorderList(this.openorderParam).then(response => {
 				this.openorderList = JSON.parse(response.data)
 				this.openorderListIntial = this.openorderList
+				localStorage.setItem('openorderList', JSON.stringify(this.openorderList));
 				this.pagination.total = this.openorderList.length
 			});
 		},
@@ -310,7 +317,7 @@ export default {
 			//console.log('page-change:', pageInfo, newData);
 		},
 		rehandleExpandChange(value, params) {
-			this.expandedRowKeys = value;
+			//this.expandedRowKeys = value;
 			//console.log('rehandleExpandChange', value);
 			//console.log('rehandleExpandChange', params);
 		},
@@ -348,3 +355,4 @@ export default {
 		}
 	}
 </style>
+

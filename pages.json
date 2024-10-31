@@ -318,6 +318,7 @@
 			"path": "pages/openorder/openorder-pc",
 			"style": {
 				"navigationBarTitleText": "openorder",
+				"leftWindow":false,
 				"titleNView":false
 			}
 		},
@@ -325,6 +326,7 @@
 			"path": "pages/openorder/openorderDetail-pc",
 			"style": {
 				"navigationBarTitleText": "openorderDetail",
+				"leftWindow":false,
 				"titleNView":false
 			}
 		}
