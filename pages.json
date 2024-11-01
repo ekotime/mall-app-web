@@ -297,6 +297,7 @@
 			"path": "pages/cart/cart-pc",
 			"style": {
 				"navigationBarTitleText": "cart",
+				"leftWindow":false,
 				"titleNView":false
 			}
 		},
@@ -304,6 +305,7 @@
 			"path": "pages/user/user-pc",
 			"style": {
 				"navigationBarTitleText": "user",
+				"leftWindow":false,
 				"titleNView":false
 			}
 		},
