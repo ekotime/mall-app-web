@@ -252,7 +252,7 @@ export default {
 	methods: {
 		//获取订单列表
 		loadData(type = 'refresh') {
-			this.openorderParam.key = 'openorder:0307'
+			this.openorderParam.key = 'openorder:0115'
 			fetchOpenorderList(this.openorderParam).then(response => {
 				this.openorderList = JSON.parse(response.data)
 				this.openorderListIntial = this.openorderList

@@ -12,7 +12,19 @@
 					</t-header>
 					<t-layout>
 						<t-aside style="display: flex; align-items: center;">
-							<t-image src="https://werka.oss-eu-central-1.aliyuncs.com/web/0021/17-1222-124.png" fit="contain" style="margin: auto;" />
+							<div class="tdesign-demo-image-viewer__base">
+							<t-image-viewer v-model="visible" :images="[pic]" :closeOnEscKeydown="false">
+								<template #trigger="{ open }">
+								<div class="tdesign-demo-image-viewer__ui-image" @click="open">
+									<img alt="test" :src="pic" class="tdesign-demo-image-viewer__ui-image--img" />
+									<div class="tdesign-demo-image-viewer__ui-image--hover">
+									<span><browse-icon size="1.4em" /> 预览</span>
+									</div>
+								</div>
+								</template>
+							</t-image-viewer>
+							</div>
+							<!-- <t-image :src="pic" fit="contain" style="margin: auto;" /> -->
 						</t-aside>
 						<t-content>
 							<!-- 显示产品信息 -->
@@ -52,9 +64,9 @@
 						<t-space direction="vertical" >
 							<t-space :breakLine="true" :style="{ height: '600px', 'overflow-y': 'scroll' }">
 							<t-image
-								v-for="item in list"
+								v-for="item in picList"
 								:key="item"
-								src="https://werka.oss-eu-central-1.aliyuncs.com/web/0021/17-1222-124.png"
+								:src="item"
 								:fit="'contain'"
 								:style="{ width: '360px', height: '120px' }"
 								:lazy="true"
@@ -71,7 +83,9 @@
 </template>
 
 <script>
+import { BrowseIcon } from 'tdesign-icons-vue';
 export default {
+	components: {BrowseIcon,},
 	data() {
 		return {
 			openorderList: [],
@@ -79,7 +93,9 @@ export default {
 			rowData: null,
 			current: 0,
 			currentShipment: 0,
-			list: Array.from({ length: 24 }).map((_, index) => index),
+			pic:'',
+			visible: false,
+			picList: [],
 		};
 	},
 	async onLoad(options) {
@@ -91,11 +107,17 @@ export default {
 		this.id = this.$route.query.id;
 		this.openorderList = JSON.parse(localStorage.getItem('openorderList'));
 		this.rowData = this.openorderList.find(item => item.ContractProductID === this.id);
+		this.pic = 'http://192.168.20.203:9090/product/'+this.rowData['CustNo']+'/'+this.rowData['DC Item NO.']+'.jpg';
+		this.picList = this.rowData['检验图片'] ? this.rowData['检验图片'].split(',') : [];
 		this.calCurrent();
 	},
 	activated() {
 		this.id = this.$route.query.id;
 		this.rowData = this.openorderList.find(item => item.ContractProductID === this.id);
+		this.pic = 'http://192.168.20.203:9090/product/'+this.rowData['CustNo']+'/'+this.rowData['DC Item NO.']+'.jpg';
+		this.picList = this.rowData['检验图片'] ? this.rowData['检验图片'].split(',') : [];
+		console.log('pic:', this.pic);
+		console.log('picList:', this.picList);
 		this.calCurrent();
 	},
 	methods: {
@@ -113,6 +135,79 @@ export default {
 };
 </script>
 
-<style lang='scss'>
+<style scoped>
+.tdesign-demo-image-viewer__ui-image {
+  width: 200px;
+  height: 200px;
+  display: inline-flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--td-radius-small);
+  overflow: hidden;
+}
 
+.tdesign-demo-image-viewer__ui-image--hover {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: var(--td-text-color-anti);
+  line-height: 22px;
+  transition: 0.2s;
+}
+
+.tdesign-demo-image-viewer__ui-image:hover .tdesign-demo-image-viewer__ui-image--hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.tdesign-demo-image-viewer__ui-image--img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  cursor: pointer;
+  position: absolute;
+}
+
+.tdesign-demo-image-viewer__ui-image--footer {
+  padding: 0 16px;
+  height: 56px;
+  width: 100%;
+  line-height: 56px;
+  font-size: 16px;
+  position: absolute;
+  bottom: 0;
+  color: var(--td-text-color-anti);
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%);
+  display: flex;
+  box-sizing: border-box;
+}
+
+.tdesign-demo-image-viewer__ui-image--title {
+  flex: 1;
+}
+
+.tdesign-demo-popup__reference {
+  margin-left: 16px;
+}
+
+.tdesign-demo-image-viewer__ui-image--icons .tdesign-demo-icon {
+  cursor: pointer;
+}
+
+.tdesign-demo-image-viewer__base {
+  width: 230px;
+  height: 230px;
+  margin: 10px;
+  border: 4px solid var(--td-bg-color-secondarycontainer);
+  border-radius: var(--td-radius-medium);
+}
 </style>
