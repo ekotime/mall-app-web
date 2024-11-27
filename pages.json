@@ -331,6 +331,14 @@
 				"leftWindow":false,
 				"titleNView":false
 			}
+		},
+		{
+			"path": "pages/openorder/openorderProductDetail-pc",
+			"style": {
+				"navigationBarTitleText": "openorderProductDetail",
+				"leftWindow":false,
+				"titleNView":false
+			}
 		}
 	],
 	"globalStyle": {

@@ -6,12 +6,29 @@
 		<!-- 设置白色背景防止软键盘把下部绝对定位元素顶上来盖住输入框等 -->
 		<view class="wrapper">
 			<view class="empty">
-				<image src="/static/qrcode_for_macrozheng_258.jpg" mode="aspectFit"></image>
 				<view class="empty-tips">
-					扫描上方二维码<view class="navigator">关注公众号</view>，
-				</view>
-				<view class="empty-tips">
-					回复<view class="navigator">会员</view>获取体验账号。
+					<t-form :data="formData" :rules="rules" ref="form" @reset="onReset" @submit="onSubmit">
+						<t-form-item label="用户名" help="这里可以展示一段说明文字" name="username">
+							<t-input v-model="formData.username" placeholder="请输入用户名"></t-input>
+						</t-form-item>
+						<t-form-item label="密码" name="password">
+							<t-input type="password" v-model="formData.password" placeholder="请输入密码"></t-input>
+						</t-form-item>
+						<t-form-item label="确认密码" name="rePassword" help="自定义异步校验方法">
+							<t-input type="password" v-model="formData.rePassword" placeholder="请再次输入密码"></t-input>
+						</t-form-item>
+						<t-form-item label="邮箱" name="email">
+							<t-input v-model="formData.email" placeholder="请输入邮箱"></t-input>
+						</t-form-item>
+
+						<t-form-item style="margin-left: 100px">
+							<t-space size="10px">
+								<t-button theme="primary" type="submit">提交</t-button>
+								<t-button theme="default" variant="base" type="reset">重置</t-button>
+								<t-button theme="default" variant="base" @click="handleClear">清空校验结果</t-button>
+							</t-space>
+						</t-form-item>
+					</t-form>
 				</view>
 			</view>
 		</view>
@@ -19,15 +36,176 @@
 </template>
 
 <script>
+	import {
+		memberRegister,
+		memberInfo
+	} from '@/api/member.js';
+	const INITIAL_DATA = {
+		username: '',
+		password: '',
+		rePassword: '',
+		email: '',
+	};
 	export default {
 		data() {
-			return {}
+			return {
+				formData: {
+					...INITIAL_DATA
+				},
+				// FormItem.rules 优先级大于 Form.rules
+				rules: {
+					username: [{
+							required: true,
+							message: '姓名必填',
+							type: 'error',
+							trigger: 'blur',
+						},
+						// trigger 默认为 'change'
+						{
+							required: true,
+							message: '姓名必填',
+							type: 'error'
+						},
+						{
+							whitespace: true,
+							message: '姓名不能为空'
+						},
+						{
+							min: 2,
+							message: '至少需要两个字符，一个中文等于两个字符',
+							type: 'warning',
+							trigger: 'blur',
+						},
+						{
+							max: 10,
+							message: '姓名字符长度超出',
+							type: 'warning',
+							trigger: 'blur',
+						},
+					],
+					password: [{
+							required: true,
+							message: '密码必填',
+							type: 'error'
+						},
+						// 自定义校验规则：不同的值可以有不同的校验结果，不同的校验类型
+						{
+							validator: this.passwordValidator
+						},
+					],
+					rePassword: [{
+							required: true,
+							message: '密码必填',
+							type: 'error'
+						},
+						// 自定义校验规则：自定义异步校验规则
+						{
+							validator: this.rePassword,
+							message: '两次密码不一致'
+						},
+					],
+					email: [{
+							required: true,
+							message: '邮箱必填'
+						},
+						{
+							email: {
+								ignore_max_length: true
+							},
+							message: '请输入正确的邮箱地址'
+						},
+					],
+				}
+			}
 		},
-		onLoad() {
-		},
+		onLoad() {},
 		methods: {
 			navBack() {
 				uni.navigateBack();
+			},
+			onReset() {
+				this.$message.success('重置成功');
+				console.log('formData', this.formData);
+			},
+			onSubmit({
+				validateResult,
+				firstError
+			}) {
+				if (validateResult === true) {
+					this.$message.success('提交成功');
+					memberRegister({
+						username: this.formData.username,
+						password: this.formData.password,
+						telephone: '13651763572',
+						authCode: '1234'
+					}).then(response => {
+						let token = response.data.tokenHead + response.data.token;
+						uni.setStorageSync('username', this.username);
+						uni.setStorageSync('password', this.password);
+						memberInfo().then(response => {
+							this.login(response.data);
+							uni.navigateBack();
+						});
+					}).catch(() => {
+						this.logining = false;
+					});
+				} else {
+					console.log('Errors: ', validateResult);
+					this.$message.warning(firstError);
+				}
+			},
+			handleClear() {
+				this.$refs.form.clearValidate();
+			},
+			// 自定义异步校验器，使用 resolve 返回结果控制校验结果、校验信息、校验结果类型
+			userNameValidator(val) {
+				return new Promise((resolve) => {
+					const timer = setTimeout(() => {
+						if (['Zhang', 'Li', 'Wang'].includes(val)) {
+							resolve({
+								result: true
+							});
+						} else {
+							resolve({
+								result: false,
+								message: '用户名不存在',
+								type: 'error'
+							});
+						}
+						clearTimeout(timer);
+					}, 10);
+				});
+			},
+			// 自定义校验器，不同的值输出不同的校验结果。支持异步校验（文案选自某密码重置站点，如有侵权，请联系我们删除）
+			passwordValidator(val) {
+				if (val.length > 0 && val.length <= 2) {
+					return {
+						result: false,
+						message: '太简单了！再开动一下你的小脑筋吧！',
+						type: 'error'
+					};
+				}
+				if (val.length > 2 && val.length < 4) {
+					return {
+						result: false,
+						message: '还差一点点，就是一个完美的密码了！',
+						type: 'warning'
+					};
+				}
+				return {
+					result: true,
+					message: '太强了，你确定自己记得住吗！',
+					type: 'success'
+				};
+			},
+			// 自定义异步校验器
+			rePassword(val) {
+				return new Promise((resolve) => {
+					const timer = setTimeout(() => {
+						resolve(this.formData.password === val);
+						clearTimeout(timer);
+					});
+				});
 			},
 		},
 
@@ -38,7 +216,7 @@
 	page {
 		background: #fff;
 	}
-	
+
 	.empty {
 		position: fixed;
 		left: 0;
@@ -51,17 +229,18 @@
 		flex-direction: column;
 		align-items: center;
 		background: #fff;
-	
+
 		image {
 			width: 420upx;
 			height: 420upx;
 			margin-bottom: 30upx;
 		}
+
 		.empty-tips {
 			display: flex;
 			font-size: $font-sm+16upx;
 			color: $font-color-disabled;
-		
+
 			.navigator {
 				color: $uni-color-primary;
 				margin-left: 0upx;

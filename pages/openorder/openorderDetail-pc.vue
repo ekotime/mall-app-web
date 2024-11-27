@@ -16,13 +16,16 @@
 							<t-image-viewer v-model="visible" :images="[pic]" :closeOnEscKeydown="false">
 								<template #trigger="{ open }">
 								<div class="tdesign-demo-image-viewer__ui-image" @click="open">
-									<img alt="test" :src="pic" class="tdesign-demo-image-viewer__ui-image--img" />
+									<img :alt="rowData['Item NO.']" :src="pic" class="tdesign-demo-image-viewer__ui-image--img" />
 									<div class="tdesign-demo-image-viewer__ui-image--hover">
 									<span><browse-icon size="1.4em" /> 预览</span>
 									</div>
 								</div>
 								</template>
 							</t-image-viewer>
+							<div style="display: flex; justify-content: center;">
+								<t-link theme="primary" underline @click="navigateToProductDetail">产品明细表</t-link>
+							</div>
 							</div>
 							<!-- <t-image :src="pic" fit="contain" style="margin: auto;" /> -->
 						</t-aside>
@@ -44,6 +47,9 @@
 								<t-form-item label="Specific" name="personalProfile">
 									<t-textarea v-model="rowData['Specific']" readonly />
 								</t-form-item>
+								<t-form-item label="ETD" name="personalProfile">
+									<t-input v-model="rowData['ETD']" readonly />
+								</t-form-item>
 							</t-form>
 						</t-content>
 					</t-layout>
@@ -61,7 +67,17 @@
 							<t-step-item title="Stock" :content="String(rowData['Stock'])"></t-step-item>
 						</t-steps>
 						<t-divider>QC Picture</t-divider>
-						<t-space direction="vertical" >
+						<t-image-viewer v-for="(img, index) in picList" :key="img" :default-index="index" :images="picList">
+						<template #trigger="{ open }">
+							<div class="tdesign-demo-image-viewer__ui-image tdesign-demo-image-viewer__base">
+							<img :src="img" class="tdesign-demo-image-viewer__ui-image--img" />
+							<div class="tdesign-demo-image-viewer__ui-image--hover" @click="open">
+								<span><browse-icon size="1.4em" /> 预览</span>
+							</div>
+							</div>
+						</template>
+						</t-image-viewer>
+						<!-- <t-space direction="vertical" >
 							<t-space :breakLine="true" :style="{ height: '600px', 'overflow-y': 'scroll' }">
 							<t-image
 								v-for="item in picList"
@@ -72,12 +88,11 @@
 								:lazy="true"
 							/>
 							</t-space>
-						</t-space>
+						</t-space> -->
 					</t-footer>
 				</t-layout>
 			</div>
 		</t-space>
-
 	</view>
 	
 </template>
@@ -130,6 +145,24 @@ export default {
 			this.current = this.rowData['INSP'] ? 2 : this.current;
 			this.current = this.rowData['Stock'] ? 3 : this.current;
 			this.currentShipment = this.rowData['Shipping'] ? 1 : 0;
+		},
+		navigateToProductDetail() {
+			// 同时使用 uni-app 导航和新窗口打开
+			// uni.navigateTo({
+			// 	url: '/pages/openorder/openorderProductDetail-pc',
+			// 	success: (res) => {
+			// 		console.log('Navigation successful:', res);
+			// 	},
+			// 	fail: (err) => {
+			// 		console.error('Navigation failed:', err);
+			// 	}
+			// });
+			
+			// 使用当前域名 + hash 路由
+			window.open('#/pages/openorder/openorderProductDetail-pc', '_blank');
+			
+			// 或者使用完整的 URL
+			// window.open(window.location.origin + '/#/pages/openorder/openorderProductDetail-pc', '_blank');
 		}
 	}
 };
