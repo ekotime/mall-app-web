@@ -8,6 +8,13 @@
 			<view class="empty">
 				<view class="empty-tips">
 					<t-form :data="formData" :rules="rules" ref="form" @reset="onReset" @submit="onSubmit">
+						<t-form-item label="邮箱" name="email">
+							<t-input v-model="formData.email" placeholder="请输入邮箱"></t-input>
+							<t-button theme="default" variant="base" @click="getAuthCode">获取验证码</t-button>
+						</t-form-item>
+						<t-form-item label="验证码" name="authCode">
+							<t-input v-model="formData.authCode" placeholder="请输入验证码"></t-input>
+						</t-form-item>
 						<t-form-item label="用户名" help="这里可以展示一段说明文字" name="username">
 							<t-input v-model="formData.username" placeholder="请输入用户名"></t-input>
 						</t-form-item>
@@ -17,10 +24,6 @@
 						<t-form-item label="确认密码" name="rePassword" help="自定义异步校验方法">
 							<t-input type="password" v-model="formData.rePassword" placeholder="请再次输入密码"></t-input>
 						</t-form-item>
-						<t-form-item label="邮箱" name="email">
-							<t-input v-model="formData.email" placeholder="请输入邮箱"></t-input>
-						</t-form-item>
-
 						<t-form-item style="margin-left: 100px">
 							<t-space size="10px">
 								<t-button theme="primary" type="submit">提交</t-button>
@@ -37,14 +40,15 @@
 
 <script>
 	import {
+		memberGetAuthCode,
 		memberRegister,
-		memberInfo
 	} from '@/api/member.js';
 	const INITIAL_DATA = {
 		username: '',
 		password: '',
 		rePassword: '',
 		email: '',
+		authCode: '',
 	};
 	export default {
 		data() {
@@ -115,6 +119,11 @@
 							message: '请输入正确的邮箱地址'
 						},
 					],
+					authCode: [{
+							required: true,
+							message: '验证码必填'
+						},
+					],
 				}
 			}
 		},
@@ -125,9 +134,8 @@
 			},
 			onReset() {
 				this.$message.success('重置成功');
-				console.log('formData', this.formData);
 			},
-			onSubmit({
+			async onSubmit({
 				validateResult,
 				firstError
 			}) {
@@ -136,15 +144,12 @@
 					memberRegister({
 						username: this.formData.username,
 						password: this.formData.password,
-						telephone: '13651763572',
-						authCode: '1234'
+						telephone: this.formData.email,
+						authCode: this.formData.authCode
 					}).then(response => {
-						let token = response.data.tokenHead + response.data.token;
-						uni.setStorageSync('username', this.username);
-						uni.setStorageSync('password', this.password);
-						memberInfo().then(response => {
-							this.login(response.data);
-							uni.navigateBack();
+						// 注册成功后，跳转到登录页面并携带用户名和密码
+						uni.navigateTo({
+							url: '/pages/public/login?username=' + this.formData.username
 						});
 					}).catch(() => {
 						this.logining = false;
@@ -156,6 +161,23 @@
 			},
 			handleClear() {
 				this.$refs.form.clearValidate();
+			},
+			getAuthCode() {
+				// 验证邮箱格式
+				const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+				if (!emailRegex.test(this.formData.email)) {
+					this.$message.warning('请输入正确的邮箱地址');
+					return;
+				} else {
+					//发送验证码
+					memberGetAuthCode({
+						email: this.formData.email,
+					}).then(response => {
+						this.$message.success('验证码发送成功');
+					}).catch(() => {
+						this.logining = false;
+					});
+				}
 			},
 			// 自定义异步校验器，使用 resolve 返回结果控制校验结果、校验信息、校验结果类型
 			userNameValidator(val) {

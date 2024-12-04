@@ -22,6 +22,7 @@
 					user: 4,
 					product: 1,
 					set: 4,
+					public: 4,
 					openorder: 3,
 				},
 				current: 0,

@@ -1,5 +1,16 @@
 import request from '@/utils/requestUtil'
 
+export function memberGetAuthCode(data) {
+	return request({
+		method: 'GET',
+		url: '/sso/getEmailAuthCode',
+		header: {
+			'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+		},
+		data: data
+	})
+}
+
 export function memberRegister(data) {
 	return request({
 		method: 'POST',
